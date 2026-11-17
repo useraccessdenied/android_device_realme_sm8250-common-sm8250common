@@ -139,10 +139,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.1-impl.custom
 
-# Face unlock
-PRODUCT_PACKAGES += \
-    vendor.oplus.hardware.biometrics.face@1.0-service
-
+# Face unlock: Oplus face HAL is AIDL v1; Android 17 FCM requires IFace >= 3, so it is not declared/started.
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.biometrics.face.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.biometrics.face.xml
 
@@ -405,3 +402,7 @@ PRODUCT_PACKAGES += \
 
 # Inherit from the proprietary files makefile.
 $(call inherit-product, vendor/realme/sm8250-common/sm8250-common-vendor.mk)
+
+# bitra: Droidspaces needs CONFIG_SYSVIPC / IP6_NF_NAT which the kernel FCM (level 7) forbids.
+# This only disables the OTA-time kernel-config compatibility check.
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
